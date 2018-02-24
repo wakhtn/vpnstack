@@ -1,0 +1,26 @@
+version: '2.0'
+
+volumes:
+  pritunlmongo:
+  pritunldata:
+  clientconf:
+
+services:
+
+  client:
+    image: htn/openvpn-client
+    privileged: true
+    volumes:
+      - clientconf:/etc/openvpn
+
+  pritunl:
+    image: jippi/pritunl
+    privileged: true
+    volumes:
+      - pritunlmongo:/var/lib/mongodb
+      - pritunldata:/var/lib/pritunl
+    ports:
+      - 169.254.132.188:1194:1194/tcp
+      - 169.254.132.188:1194:1194/udp
+      - 169.254.132.188:8888:80
+      - 169.254.132.188:8843:443
